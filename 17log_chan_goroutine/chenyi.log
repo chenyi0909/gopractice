@@ -1,0 +1,9 @@
+[2022-08-09 20:42:51] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:42:52] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:42:52] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:42:52] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:42:52] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:42:53] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:42:53] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:42:53] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:42:53] [INFO] [main.go-26-main.main] 这是一条Info日志

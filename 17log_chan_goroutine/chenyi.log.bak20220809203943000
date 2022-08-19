@@ -1,0 +1,124 @@
+[2022-08-09 20:39:11] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:12] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:12] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:12] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:12] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:13] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:13] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:13] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:13] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:14] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:14] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:14] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:14] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:15] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:15] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:15] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:15] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:16] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:16] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:16] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:16] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:17] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:17] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:17] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:17] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:18] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:18] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:18] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:18] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:20] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:20] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:20] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:20] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:21] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:21] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:21] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:21] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:22] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:22] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:22] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:22] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:23] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:23] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:23] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:23] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:24] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:24] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:24] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:24] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:25] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:25] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:25] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:25] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:26] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:26] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:26] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:26] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:27] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:27] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:27] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:27] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:28] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:28] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:28] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:28] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:29] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:29] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:29] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:29] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:30] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:30] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:30] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:30] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:31] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:31] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:31] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:31] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:32] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:32] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:32] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:32] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:33] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:33] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:33] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:33] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:34] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:34] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:34] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:34] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:35] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:35] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:35] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:35] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:36] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:36] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:36] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:36] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:37] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:37] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:37] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:37] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:38] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:38] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:38] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:38] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:39] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:39] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:39] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:39] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:40] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:40] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:40] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:40] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:41] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:41] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:41] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:41] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:42] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:42] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:42] [INFO] [main.go-26-main.main] 这是一条Info日志
+[2022-08-09 20:39:42] [WARNING] [main.go-27-main.main] 这是一条Warning日志
+[2022-08-09 20:39:43] [DEBUG] [main.go-24-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-08-09 20:39:43] [TRACE] [main.go-25-main.main] 这是一条Trace日志
+[2022-08-09 20:39:43] [INFO] [main.go-26-main.main] 这是一条Info日志

@@ -1,0 +1,60 @@
+[2022-06-05 18:24:55] [DEBUG] [main.go-18-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-06-05 18:24:55] [TRACE] [main.go-19-main.main] 这是一条Trace日志
+[2022-06-05 18:24:55] [INFO] [main.go-20-main.main] 这是一条Info日志
+[2022-06-05 18:24:55] [WARNING] [main.go-21-main.main] 这是一条Warning日志
+[2022-06-05 18:24:55] [ERROR] [main.go-22-main.main] 这是一条Error日志
+[2022-06-05 18:24:55] [FATAL] [main.go-23-main.main] 这是一条Fatal日志
+[2022-06-05 18:28:13] [DEBUG] [main.go-18-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-06-05 18:28:13] [TRACE] [main.go-19-main.main] 这是一条Trace日志
+[2022-06-05 18:28:13] [INFO] [main.go-20-main.main] 这是一条Info日志
+[2022-06-05 18:28:13] [WARNING] [main.go-21-main.main] 这是一条Warning日志
+[2022-06-05 18:28:13] [ERROR] [main.go-22-main.main] 这是一条Error日志
+[2022-06-05 18:28:13] [FATAL] [main.go-23-main.main] 这是一条Fatal日志
+[2022-06-05 18:28:16] [DEBUG] [main.go-18-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-06-05 18:28:16] [TRACE] [main.go-19-main.main] 这是一条Trace日志
+[2022-06-05 18:28:16] [INFO] [main.go-20-main.main] 这是一条Info日志
+[2022-06-05 18:28:16] [WARNING] [main.go-21-main.main] 这是一条Warning日志
+[2022-06-05 18:28:16] [ERROR] [main.go-22-main.main] 这是一条Error日志
+[2022-06-05 18:28:16] [FATAL] [main.go-23-main.main] 这是一条Fatal日志
+[2022-06-05 19:48:27] [DEBUG] [main.go-18-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-06-05 19:48:27] [TRACE] [main.go-19-main.main] 这是一条Trace日志
+[2022-06-05 19:48:27] [INFO] [main.go-20-main.main] 这是一条Info日志
+[2022-06-05 19:48:27] [WARNING] [main.go-21-main.main] 这是一条Warning日志
+[2022-06-05 19:48:27] [ERROR] [main.go-22-main.main] 这是一条Error日志
+[2022-06-05 19:48:27] [FATAL] [main.go-23-main.main] 这是一条Fatal日志
+[2022-06-05 19:49:24] [DEBUG] [main.go-18-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-06-05 19:49:24] [TRACE] [main.go-19-main.main] 这是一条Trace日志
+[2022-06-05 19:49:24] [INFO] [main.go-20-main.main] 这是一条Info日志
+[2022-06-05 19:49:24] [WARNING] [main.go-21-main.main] 这是一条Warning日志
+[2022-06-05 19:49:24] [ERROR] [main.go-22-main.main] 这是一条Error日志
+[2022-06-05 19:49:24] [FATAL] [main.go-23-main.main] 这是一条Fatal日志
+[2022-06-05 19:49:47] [DEBUG] [main.go-18-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-06-05 19:49:47] [TRACE] [main.go-19-main.main] 这是一条Trace日志
+[2022-06-05 19:49:47] [INFO] [main.go-20-main.main] 这是一条Info日志
+[2022-06-05 19:49:47] [WARNING] [main.go-21-main.main] 这是一条Warning日志
+[2022-06-05 19:49:47] [ERROR] [main.go-22-main.main] 这是一条Error日志
+[2022-06-05 19:49:47] [FATAL] [main.go-23-main.main] 这是一条Fatal日志
+[2022-06-05 19:51:41] [DEBUG] [main.go-18-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-06-05 19:51:41] [TRACE] [main.go-19-main.main] 这是一条Trace日志
+[2022-06-05 19:51:41] [INFO] [main.go-20-main.main] 这是一条Info日志
+[2022-06-05 19:51:41] [WARNING] [main.go-21-main.main] 这是一条Warning日志
+[2022-06-05 19:51:41] [ERROR] [main.go-22-main.main] 这是一条Error日志
+[2022-06-05 19:51:41] [FATAL] [main.go-23-main.main] 这是一条Fatal日志
+[2022-06-05 19:58:09] [DEBUG] [main.go-18-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-06-05 19:58:09] [TRACE] [main.go-19-main.main] 这是一条Trace日志
+[2022-06-05 19:58:09] [INFO] [main.go-20-main.main] 这是一条Info日志
+[2022-06-05 19:58:09] [WARNING] [main.go-21-main.main] 这是一条Warning日志
+[2022-06-05 19:58:09] [ERROR] [main.go-22-main.main] 这是一条Error日志
+[2022-06-05 19:58:09] [FATAL] [main.go-23-main.main] 这是一条Fatal日志
+[2022-06-05 20:08:00] [DEBUG] [main.go-18-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-06-05 20:08:00] [TRACE] [main.go-19-main.main] 这是一条Trace日志
+[2022-06-05 20:08:00] [INFO] [main.go-20-main.main] 这是一条Info日志
+[2022-06-05 20:08:00] [WARNING] [main.go-21-main.main] 这是一条Warning日志
+[2022-06-05 20:08:00] [ERROR] [main.go-22-main.main] 这是一条Error日志
+[2022-06-05 20:08:00] [FATAL] [main.go-23-main.main] 这是一条Fatal日志
+[2022-06-05 20:31:46] [DEBUG] [main.go-21-main.main] id:10068-name:chenyi 这是一条Debug日志
+[2022-06-05 20:31:46] [TRACE] [main.go-22-main.main] 这是一条Trace日志
+[2022-06-05 20:31:46] [INFO] [main.go-23-main.main] 这是一条Info日志
+[2022-06-05 20:31:46] [WARNING] [main.go-24-main.main] 这是一条Warning日志
+[2022-06-05 20:31:46] [ERROR] [main.go-25-main.main] 这是一条Error日志
+[2022-06-05 20:31:46] [FATAL] [main.go-26-main.main] 这是一条Fatal日志
