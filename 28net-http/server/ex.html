@@ -1,0 +1,1137 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="baidu-site-verification" content="code-7nivAemV0f" />
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Go语言基础之单元测试 | 李文周的博客</title>
+    <meta property="og:title" content="Go语言基础之单元测试 - 李文周的博客">
+    <meta property="og:type" content="article">
+
+    <meta property="article:published_time" content="2017-06-27T21:00:10&#43;08:00">
+
+
+    <meta property="article:modified_time" content="2017-06-27T21:00:10&#43;08:00">
+
+    <meta name="Keywords" content="Go,Go教程,Go语言教程,李文周,七米">
+    <meta name="description" content="李文周的Blog Go语言测试 单元测试 go test">
+
+    <meta name="author" content="李文周">
+    <meta property="og:url" content="https://www.liwenzhou.com/posts/Go/unit-test/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+
+    <link rel="stylesheet" href="/css/prism.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+
+
+
+
+
+
+    <link rel="stylesheet" href="/css/sidebar_menu.css">
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?e0a55b64495e292a238b463a78dd56da";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+
+                <a id="logo" href="https://www.liwenzhou.com">
+                    李文周的博客
+                </a>
+
+                <p class="description">总结Go语言学习之路，提供免费的Go语言学习教程，希望与大家一起学习进步。</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://www.liwenzhou.com">首页</a>
+
+                    <a  href="https://www.liwenzhou.com/archives/" title="归档">归档</a>
+
+                    <a  href="https://www.liwenzhou.com/about/" title="关于">关于</a>
+
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">Go语言基础之单元测试</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            发布于2017/06/27 ,更新于2017/06/27 21:00:10
+                        </date>
+
+                        <div class="post-meta meta-category">
+                            |
+
+                            <a href="https://www.liwenzhou.com/categories/Golang">Golang</a>
+
+                        </div>
+
+
+                        <div class="post-meta">
+                            <span id="busuanzi_container_page_pv">
+                                |总阅读量：<span id="busuanzi_value_page_pv"></span>次
+                            </span>
+                        </div>
+
+                        <div class="post-content">
+                            <p>不写测试的开发不是好程序员。我个人非常崇尚TDD（Test Driven Development）的，然而可惜的是国内的程序员都不太关注测试这一部分。
+                                这篇文章主要介绍下在Go语言中如何做单元测试和基准测试。</p>
+
+                            <h1 id="go-test工具">go test工具</h1>
+
+                            <p>Go语言中的测试依赖<code>go test</code>命令。编写测试代码和编写普通的Go代码过程是类似的，并不需要学习新的语法、规则或工具。</p>
+
+                            <p>go test命令是一个按照一定约定和组织的测试代码的驱动程序。在包目录内，所有以<code>_test.go</code>为后缀名的源代码文件都是<code>go test</code>测试的一部分，不会被<code>go build</code>编译到最终的可执行文件中。</p>
+
+                            <p>在<code>*_test.go</code>文件中有三种类型的函数，单元测试函数、基准测试函数和示例函数。</p>
+
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>类型</th>
+                                    <th>格式</th>
+                                    <th>作用</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                <tr>
+                                    <td>测试函数</td>
+                                    <td>函数名前缀为Test</td>
+                                    <td>测试程序的一些逻辑行为是否正确</td>
+                                </tr>
+
+                                <tr>
+                                    <td>基准函数</td>
+                                    <td>函数名前缀为Benchmark</td>
+                                    <td>测试函数的性能</td>
+                                </tr>
+
+                                <tr>
+                                    <td>示例函数</td>
+                                    <td>函数名前缀为Example</td>
+                                    <td>为文档提供示例文档</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <p><code>go test</code>命令会遍历所有的<code>*_test.go</code>文件中符合上述命名规则的函数，然后生成一个临时的main包用于调用相应的测试函数，然后构建并运行、报告测试结果，最后清理测试中生成的临时文件。</p>
+
+                            <h1 id="测试函数">测试函数</h1>
+
+                            <h2 id="测试函数的格式">测试函数的格式</h2>
+
+                            <p>每个测试函数必须导入<code>testing</code>包，测试函数的基本格式（签名）如下：</p>
+
+                            <pre><code class="language-go">func TestName(t *testing.T){
+    // ...
+}
+</code></pre>
+
+                            <p>测试函数的名字必须以<code>Test</code>开头，可选的后缀名必须以大写字母开头，举几个例子：</p>
+
+                            <pre><code class="language-go">func TestAdd(t *testing.T){ ... }
+func TestSum(t *testing.T){ ... }
+func TestLog(t *testing.T){ ... }
+</code></pre>
+
+                            <p>其中参数<code>t</code>用于报告测试失败和附加的日志信息。
+                                <code>testing.T</code>的拥有的方法如下：</p>
+
+                            <pre><code class="language-go">func (c *T) Error(args ...interface{})
+func (c *T) Errorf(format string, args ...interface{})
+func (c *T) Fail()
+func (c *T) FailNow()
+func (c *T) Failed() bool
+func (c *T) Fatal(args ...interface{})
+func (c *T) Fatalf(format string, args ...interface{})
+func (c *T) Log(args ...interface{})
+func (c *T) Logf(format string, args ...interface{})
+func (c *T) Name() string
+func (t *T) Parallel()
+func (t *T) Run(name string, f func(t *T)) bool
+func (c *T) Skip(args ...interface{})
+func (c *T) SkipNow()
+func (c *T) Skipf(format string, args ...interface{})
+func (c *T) Skipped() bool
+</code></pre>
+
+                            <h2 id="测试函数示例">测试函数示例</h2>
+
+                            <p>就像细胞是构成我们身体的基本单位，一个软件程序也是由很多单元组件构成的。单元组件可以是函数、结构体、方法和最终用户可能依赖的任意东西。总之我们需要确保这些组件是能够正常运行的。单元测试是一些利用各种方法测试单元组件的程序，它会将结果与预期输出进行比较。</p>
+
+                            <p>接下来，我们定义一个<code>split</code>的包，包中定义了一个<code>Split</code>函数，具体实现如下：</p>
+
+                            <pre><code class="language-go">// split/split.go
+
+package split
+
+import &quot;strings&quot;
+
+// split package with a single split function.
+
+// Split slices s into all substrings separated by sep and
+// returns a slice of the substrings between those separators.
+func Split(s, sep string) (result []string) {
+	i := strings.Index(s, sep)
+
+	for i &gt; -1 {
+		result = append(result, s[:i])
+		s = s[i+1:]
+		i = strings.Index(s, sep)
+	}
+	result = append(result, s)
+	return
+}
+</code></pre>
+
+                            <p>在当前目录下，我们创建一个<code>split_test.go</code>的测试文件，并定义一个测试函数如下：</p>
+
+                            <pre><code class="language-go">// split/split_test.go
+
+package split
+
+import (
+	&quot;reflect&quot;
+	&quot;testing&quot;
+)
+
+func TestSplit(t *testing.T) { // 测试函数名必须以Test开头，必须接收一个*testing.T类型参数
+	got := Split(&quot;a:b:c&quot;, &quot;:&quot;)         // 程序输出的结果
+	want := []string{&quot;a&quot;, &quot;b&quot;, &quot;c&quot;}    // 期望的结果
+	if !reflect.DeepEqual(want, got) { // 因为slice不能比较直接，借助反射包中的方法比较
+		t.Errorf(&quot;expected:%v, got:%v&quot;, want, got) // 测试失败输出错误提示
+	}
+}
+</code></pre>
+
+                            <p>此时<code>split</code>这个包中的文件如下：</p>
+
+                            <pre><code class="language-bash">split $ ls -l
+total 16
+-rw-r--r--  1 liwenzhou  staff  408  4 29 15:50 split.go
+-rw-r--r--  1 liwenzhou  staff  466  4 29 16:04 split_test.go
+</code></pre>
+
+                            <p>在<code>split</code>包路径下，执行<code>go test</code>命令，可以看到输出结果如下：</p>
+
+                            <pre><code class="language-bash">split $ go test
+PASS
+ok      github.com/Q1mi/studygo/code_demo/test_demo/split       0.005s
+</code></pre>
+
+                            <p>一个测试用例有点单薄，我们再编写一个测试使用多个字符切割字符串的例子，在<code>split_test.go</code>中添加如下测试函数：</p>
+
+                            <pre><code class="language-go">func TestMoreSplit(t *testing.T) {
+	got := Split(&quot;abcd&quot;, &quot;bc&quot;)
+	want := []string{&quot;a&quot;, &quot;d&quot;}
+	if !reflect.DeepEqual(want, got) {
+		t.Errorf(&quot;expected:%v, got:%v&quot;, want, got)
+	}
+}
+</code></pre>
+
+                            <p>再次运行<code>go test</code>命令，输出结果如下：</p>
+
+                            <pre><code class="language-bash">split $ go test
+--- FAIL: TestMultiSplit (0.00s)
+    split_test.go:20: expected:[a d], got:[a cd]
+FAIL
+exit status 1
+FAIL    github.com/Q1mi/studygo/code_demo/test_demo/split       0.006s
+</code></pre>
+
+                            <p>这一次，我们的测试失败了。我们可以为<code>go test</code>命令添加<code>-v</code>参数，查看测试函数名称和运行时间：</p>
+
+                            <pre><code class="language-bash">split $ go test -v
+=== RUN   TestSplit
+--- PASS: TestSplit (0.00s)
+=== RUN   TestMoreSplit
+--- FAIL: TestMoreSplit (0.00s)
+    split_test.go:21: expected:[a d], got:[a cd]
+FAIL
+exit status 1
+FAIL    github.com/Q1mi/studygo/code_demo/test_demo/split       0.005s
+</code></pre>
+
+                            <p>这一次我们能清楚的看到是<code>TestMoreSplit</code>这个测试没有成功。
+                                还可以在<code>go test</code>命令后添加<code>-run</code>参数，它对应一个正则表达式，只有函数名匹配上的测试函数才会被<code>go test</code>命令执行。</p>
+
+                            <pre><code class="language-bash">split $ go test -v -run=&quot;More&quot;
+=== RUN   TestMoreSplit
+--- FAIL: TestMoreSplit (0.00s)
+    split_test.go:21: expected:[a d], got:[a cd]
+FAIL
+exit status 1
+FAIL    github.com/Q1mi/studygo/code_demo/test_demo/split       0.006s
+</code></pre>
+
+                            <p>现在我们回过头来解决我们程序中的问题。很显然我们最初的<code>split</code>函数并没有考虑到sep为多个字符的情况，我们来修复下这个Bug：</p>
+
+                            <pre><code class="language-go">package split
+
+import &quot;strings&quot;
+
+// split package with a single split function.
+
+// Split slices s into all substrings separated by sep and
+// returns a slice of the substrings between those separators.
+func Split(s, sep string) (result []string) {
+	i := strings.Index(s, sep)
+
+	for i &gt; -1 {
+		result = append(result, s[:i])
+		s = s[i+len(sep):] // 这里使用len(sep)获取sep的长度
+		i = strings.Index(s, sep)
+	}
+	result = append(result, s)
+	return
+}
+</code></pre>
+
+                            <p>这一次我们再来测试一下，我们的程序。注意，当我们修改了我们的代码之后不要仅仅执行那些失败的测试函数，我们应该完整的运行所有的测试，保证不会因为修改代码而引入了新的问题。</p>
+
+                            <pre><code class="language-bash">split $ go test -v
+=== RUN   TestSplit
+--- PASS: TestSplit (0.00s)
+=== RUN   TestMoreSplit
+--- PASS: TestMoreSplit (0.00s)
+PASS
+ok      github.com/Q1mi/studygo/code_demo/test_demo/split       0.006s
+</code></pre>
+
+                            <p>这一次我们的测试都通过了。</p>
+
+                            <h2 id="测试组">测试组</h2>
+
+                            <p>我们现在还想要测试一下<code>split</code>函数对中文字符串的支持，这个时候我们可以再编写一个<code>TestChineseSplit</code>测试函数，但是我们也可以使用如下更友好的一种方式来添加更多的测试用例。</p>
+
+                            <pre><code class="language-go">func TestSplit(t *testing.T) {
+   // 定义一个测试用例类型
+	type test struct {
+		input string
+		sep   string
+		want  []string
+	}
+	// 定义一个存储测试用例的切片
+	tests := []test{
+		{input: &quot;a:b:c&quot;, sep: &quot;:&quot;, want: []string{&quot;a&quot;, &quot;b&quot;, &quot;c&quot;}},
+		{input: &quot;a:b:c&quot;, sep: &quot;,&quot;, want: []string{&quot;a:b:c&quot;}},
+		{input: &quot;abcd&quot;, sep: &quot;bc&quot;, want: []string{&quot;a&quot;, &quot;d&quot;}},
+		{input: &quot;沙河有沙又有河&quot;, sep: &quot;沙&quot;, want: []string{&quot;河有&quot;, &quot;又有河&quot;}},
+	}
+	// 遍历切片，逐一执行测试用例
+	for _, tc := range tests {
+		got := Split(tc.input, tc.sep)
+		if !reflect.DeepEqual(got, tc.want) {
+			t.Errorf(&quot;expected:%v, got:%v&quot;, tc.want, got)
+		}
+	}
+}
+</code></pre>
+
+                            <p>我们通过上面的代码把多个测试用例合到一起，再次执行<code>go test</code>命令。</p>
+
+                            <pre><code class="language-bash">split $ go test -v
+=== RUN   TestSplit
+--- FAIL: TestSplit (0.00s)
+    split_test.go:42: expected:[河有 又有河], got:[ 河有 又有河]
+FAIL
+exit status 1
+FAIL    github.com/Q1mi/studygo/code_demo/test_demo/split       0.006s
+</code></pre>
+
+                            <p>我们的测试出现了问题，仔细看打印的测试失败提示信息：<code>expected:[河有 又有河], got:[ 河有 又有河]</code>，你会发现<code>[ 河有 又有河]</code>中有个不明显的空串，这种情况下十分推荐使用<code>%#v</code>的格式化方式。</p>
+
+                            <p>我们修改下测试用例的格式化输出错误提示部分：</p>
+
+                            <pre><code class="language-go">func TestSplit(t *testing.T) {
+   ...
+   
+	for _, tc := range tests {
+		got := Split(tc.input, tc.sep)
+		if !reflect.DeepEqual(got, tc.want) {
+			t.Errorf(&quot;expected:%#v, got:%#v&quot;, tc.want, got)
+		}
+	}
+}
+</code></pre>
+
+                            <p>此时运行<code>go test</code>命令后就能看到比较明显的提示信息了：</p>
+
+                            <pre><code class="language-bash">split $ go test -v
+=== RUN   TestSplit
+--- FAIL: TestSplit (0.00s)
+    split_test.go:42: expected:[]string{&quot;河有&quot;, &quot;又有河&quot;}, got:[]string{&quot;&quot;, &quot;河有&quot;, &quot;又有河&quot;}
+FAIL
+exit status 1
+FAIL    github.com/Q1mi/studygo/code_demo/test_demo/split       0.006s
+</code></pre>
+
+                            <h2 id="子测试">子测试</h2>
+
+                            <p>看起来都挺不错的，但是如果测试用例比较多的时候，我们是没办法一眼看出来具体是哪个测试用例失败了。我们可能会想到下面的解决办法：</p>
+
+                            <pre><code class="language-go">func TestSplit(t *testing.T) {
+	type test struct { // 定义test结构体
+		input string
+		sep   string
+		want  []string
+	}
+	tests := map[string]test{ // 测试用例使用map存储
+		&quot;simple&quot;:      {input: &quot;a:b:c&quot;, sep: &quot;:&quot;, want: []string{&quot;a&quot;, &quot;b&quot;, &quot;c&quot;}},
+		&quot;wrong sep&quot;:   {input: &quot;a:b:c&quot;, sep: &quot;,&quot;, want: []string{&quot;a:b:c&quot;}},
+		&quot;more sep&quot;:    {input: &quot;abcd&quot;, sep: &quot;bc&quot;, want: []string{&quot;a&quot;, &quot;d&quot;}},
+		&quot;leading sep&quot;: {input: &quot;沙河有沙又有河&quot;, sep: &quot;沙&quot;, want: []string{&quot;河有&quot;, &quot;又有河&quot;}},
+	}
+	for name, tc := range tests {
+		got := Split(tc.input, tc.sep)
+		if !reflect.DeepEqual(got, tc.want) {
+			t.Errorf(&quot;name:%s expected:%#v, got:%#v&quot;, name, tc.want, got) // 将测试用例的name格式化输出
+		}
+	}
+}
+</code></pre>
+
+                            <p>上面的做法是能够解决问题的。同时Go1.7+中新增了子测试，我们可以按照如下方式使用<code>t.Run</code>执行子测试：</p>
+
+                            <pre><code class="language-go">func TestSplit(t *testing.T) {
+	type test struct { // 定义test结构体
+		input string
+		sep   string
+		want  []string
+	}
+	tests := map[string]test{ // 测试用例使用map存储
+		&quot;simple&quot;:      {input: &quot;a:b:c&quot;, sep: &quot;:&quot;, want: []string{&quot;a&quot;, &quot;b&quot;, &quot;c&quot;}},
+		&quot;wrong sep&quot;:   {input: &quot;a:b:c&quot;, sep: &quot;,&quot;, want: []string{&quot;a:b:c&quot;}},
+		&quot;more sep&quot;:    {input: &quot;abcd&quot;, sep: &quot;bc&quot;, want: []string{&quot;a&quot;, &quot;d&quot;}},
+		&quot;leading sep&quot;: {input: &quot;沙河有沙又有河&quot;, sep: &quot;沙&quot;, want: []string{&quot;河有&quot;, &quot;又有河&quot;}},
+	}
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) { // 使用t.Run()执行子测试
+			got := Split(tc.input, tc.sep)
+			if !reflect.DeepEqual(got, tc.want) {
+				t.Errorf(&quot;expected:%#v, got:%#v&quot;, tc.want, got)
+			}
+		})
+	}
+}
+</code></pre>
+
+                            <p>此时我们再执行<code>go test</code>命令就能够看到更清晰的输出内容了：</p>
+
+                            <pre><code class="language-bash">split $ go test -v
+=== RUN   TestSplit
+=== RUN   TestSplit/leading_sep
+=== RUN   TestSplit/simple
+=== RUN   TestSplit/wrong_sep
+=== RUN   TestSplit/more_sep
+--- FAIL: TestSplit (0.00s)
+    --- FAIL: TestSplit/leading_sep (0.00s)
+        split_test.go:83: expected:[]string{&quot;河有&quot;, &quot;又有河&quot;}, got:[]string{&quot;&quot;, &quot;河有&quot;, &quot;又有河&quot;}
+    --- PASS: TestSplit/simple (0.00s)
+    --- PASS: TestSplit/wrong_sep (0.00s)
+    --- PASS: TestSplit/more_sep (0.00s)
+FAIL
+exit status 1
+FAIL    github.com/Q1mi/studygo/code_demo/test_demo/split       0.006s
+</code></pre>
+
+                            <p>这个时候我们要把测试用例中的错误修改回来：</p>
+
+                            <pre><code class="language-go">func TestSplit(t *testing.T) {
+	...
+	tests := map[string]test{ // 测试用例使用map存储
+		&quot;simple&quot;:      {input: &quot;a:b:c&quot;, sep: &quot;:&quot;, want: []string{&quot;a&quot;, &quot;b&quot;, &quot;c&quot;}},
+		&quot;wrong sep&quot;:   {input: &quot;a:b:c&quot;, sep: &quot;,&quot;, want: []string{&quot;a:b:c&quot;}},
+		&quot;more sep&quot;:    {input: &quot;abcd&quot;, sep: &quot;bc&quot;, want: []string{&quot;a&quot;, &quot;d&quot;}},
+		&quot;leading sep&quot;: {input: &quot;沙河有沙又有河&quot;, sep: &quot;沙&quot;, want: []string{&quot;&quot;, &quot;河有&quot;, &quot;又有河&quot;}},
+	}
+	...
+}
+</code></pre>
+
+                            <p>我们都知道可以通过<code>-run=RegExp</code>来指定运行的测试用例，还可以通过<code>/</code>来指定要运行的子测试用例，例如：<code>go test -v -run=Split/simple</code>只会运行<code>simple</code>对应的子测试用例。</p>
+
+                            <h2 id="测试覆盖率">测试覆盖率</h2>
+
+                            <p>测试覆盖率是你的代码被测试套件覆盖的百分比。通常我们使用的都是语句的覆盖率，也就是在测试中至少被运行一次的代码占总代码的比例。</p>
+
+                            <p>Go提供内置功能来检查你的代码覆盖率。我们可以使用<code>go test -cover</code>来查看测试覆盖率。例如：</p>
+
+                            <pre><code class="language-bash">split $ go test -cover
+PASS
+coverage: 100.0% of statements
+ok      github.com/Q1mi/studygo/code_demo/test_demo/split       0.005s
+</code></pre>
+
+                            <p>从上面的结果可以看到我们的测试用例覆盖了100%的代码。</p>
+
+                            <p>Go还提供了一个额外的<code>-coverprofile</code>参数，用来将覆盖率相关的记录信息输出到一个文件。例如：</p>
+
+                            <pre><code class="language-bash">split $ go test -cover -coverprofile=c.out
+PASS
+coverage: 100.0% of statements
+ok      github.com/Q1mi/studygo/code_demo/test_demo/split       0.005s
+</code></pre>
+
+                            <p>上面的命令会将覆盖率相关的信息输出到当前文件夹下面的<code>c.out</code>文件中，然后我们执行<code>go tool cover -html=c.out</code>，使用<code>cover</code>工具来处理生成的记录信息，该命令会打开本地的浏览器窗口生成一个HTML报告。
+                                <img src="/images/Go/unit_test/cover.png" alt="Go test cover" />
+                                上图中每个用绿色标记的语句块表示被覆盖了，而红色的表示没有被覆盖。</p>
+
+                            <h1 id="基准测试">基准测试</h1>
+
+                            <h2 id="基准测试函数格式">基准测试函数格式</h2>
+
+                            <p>基准测试就是在一定的工作负载之下检测程序性能的一种方法。基准测试的基本格式如下：</p>
+
+                            <pre><code class="language-go">func BenchmarkName(b *testing.B){
+    // ...
+}
+</code></pre>
+
+                            <p>基准测试以<code>Benchmark</code>为前缀，需要一个<code>*testing.B</code>类型的参数b，基准测试必须要执行<code>b.N</code>次，这样的测试才有对照性，<code>b.N</code>的值是系统根据实际情况去调整的，从而保证测试的稳定性。
+                                <code>testing.B</code>拥有的方法如下：</p>
+
+                            <pre><code class="language-go">func (c *B) Error(args ...interface{})
+func (c *B) Errorf(format string, args ...interface{})
+func (c *B) Fail()
+func (c *B) FailNow()
+func (c *B) Failed() bool
+func (c *B) Fatal(args ...interface{})
+func (c *B) Fatalf(format string, args ...interface{})
+func (c *B) Log(args ...interface{})
+func (c *B) Logf(format string, args ...interface{})
+func (c *B) Name() string
+func (b *B) ReportAllocs()
+func (b *B) ResetTimer()
+func (b *B) Run(name string, f func(b *B)) bool
+func (b *B) RunParallel(body func(*PB))
+func (b *B) SetBytes(n int64)
+func (b *B) SetParallelism(p int)
+func (c *B) Skip(args ...interface{})
+func (c *B) SkipNow()
+func (c *B) Skipf(format string, args ...interface{})
+func (c *B) Skipped() bool
+func (b *B) StartTimer()
+func (b *B) StopTimer()
+</code></pre>
+
+                            <h2 id="基准测试示例">基准测试示例</h2>
+
+                            <p>我们为split包中的<code>Split</code>函数编写基准测试如下：</p>
+
+                            <pre><code class="language-go">func BenchmarkSplit(b *testing.B) {
+	for i := 0; i &lt; b.N; i++ {
+		Split(&quot;沙河有沙又有河&quot;, &quot;沙&quot;)
+	}
+}
+</code></pre>
+
+                            <p>基准测试并不会默认执行，需要增加<code>-bench</code>参数，所以我们通过执行<code>go test -bench=Split</code>命令执行基准测试，输出结果如下：</p>
+
+                            <pre><code class="language-bash">split $ go test -bench=Split
+goos: darwin
+goarch: amd64
+pkg: github.com/Q1mi/studygo/code_demo/test_demo/split
+BenchmarkSplit-8        10000000               203 ns/op
+PASS
+ok      github.com/Q1mi/studygo/code_demo/test_demo/split       2.255s
+</code></pre>
+
+                            <p>其中<code>BenchmarkSplit-8</code>表示对Split函数进行基准测试，数字<code>8</code>表示<code>GOMAXPROCS</code>的值，这个对于并发基准测试很重要。<code>10000000</code>和<code>203ns/op</code>表示每次调用<code>Split</code>函数耗时<code>203ns</code>，这个结果是<code>10000000</code>次调用的平均值。</p>
+
+                            <p>我们还可以为基准测试添加<code>-benchmem</code>参数，来获得内存分配的统计数据。</p>
+
+                            <pre><code class="language-bash">split $ go test -bench=Split -benchmem
+goos: darwin
+goarch: amd64
+pkg: github.com/Q1mi/studygo/code_demo/test_demo/split
+BenchmarkSplit-8        10000000               215 ns/op             112 B/op          3 allocs/op
+PASS
+ok      github.com/Q1mi/studygo/code_demo/test_demo/split       2.394s
+</code></pre>
+
+                            <p>其中，<code>112 B/op</code>表示每次操作内存分配了112字节，<code>3 allocs/op</code>则表示每次操作进行了3次内存分配。
+                                我们将我们的<code>Split</code>函数优化如下：</p>
+
+                            <pre><code class="language-go">func Split(s, sep string) (result []string) {
+	result = make([]string, 0, strings.Count(s, sep)+1)
+	i := strings.Index(s, sep)
+	for i &gt; -1 {
+		result = append(result, s[:i])
+		s = s[i+len(sep):] // 这里使用len(sep)获取sep的长度
+		i = strings.Index(s, sep)
+	}
+	result = append(result, s)
+	return
+}
+</code></pre>
+
+                            <p>这一次我们提前使用make函数将result初始化为一个容量足够大的切片，而不再像之前一样通过调用append函数来追加。我们来看一下这个改进会带来多大的性能提升：</p>
+
+                            <pre><code class="language-bash">split $ go test -bench=Split -benchmem
+goos: darwin
+goarch: amd64
+pkg: github.com/Q1mi/studygo/code_demo/test_demo/split
+BenchmarkSplit-8        10000000               127 ns/op              48 B/op          1 allocs/op
+PASS
+ok      github.com/Q1mi/studygo/code_demo/test_demo/split       1.423s
+</code></pre>
+
+                            <p>这个使用make函数提前分配内存的改动，减少了2/3的内存分配次数，并且减少了一半的内存分配。</p>
+
+                            <h2 id="性能比较函数">性能比较函数</h2>
+
+                            <p>上面的基准测试只能得到给定操作的绝对耗时，但是在很多性能问题是发生在两个不同操作之间的相对耗时，比如同一个函数处理1000个元素的耗时与处理1万甚至100万个元素的耗时的差别是多少？再或者对于同一个任务究竟使用哪种算法性能最佳？我们通常需要对两个不同算法的实现使用相同的输入来进行基准比较测试。</p>
+
+                            <p>性能比较函数通常是一个带有参数的函数，被多个不同的Benchmark函数传入不同的值来调用。举个例子如下：</p>
+
+                            <pre><code class="language-go">func benchmark(b *testing.B, size int){/* ... */}
+func Benchmark10(b *testing.B){ benchmark(b, 10) }
+func Benchmark100(b *testing.B){ benchmark(b, 100) }
+func Benchmark1000(b *testing.B){ benchmark(b, 1000) }
+</code></pre>
+
+                            <p>例如我们编写了一个计算斐波那契数列的函数如下：</p>
+
+                            <pre><code class="language-go">// fib.go
+
+// Fib 是一个计算第n个斐波那契数的函数
+func Fib(n int) int {
+	if n &lt; 2 {
+		return n
+	}
+	return Fib(n-1) + Fib(n-2)
+}
+</code></pre>
+
+                            <p>我们编写的性能比较函数如下：</p>
+
+                            <pre><code class="language-go">// fib_test.go
+
+func benchmarkFib(b *testing.B, n int) {
+	for i := 0; i &lt; b.N; i++ {
+		Fib(n)
+	}
+}
+
+func BenchmarkFib1(b *testing.B)  { benchmarkFib(b, 1) }
+func BenchmarkFib2(b *testing.B)  { benchmarkFib(b, 2) }
+func BenchmarkFib3(b *testing.B)  { benchmarkFib(b, 3) }
+func BenchmarkFib10(b *testing.B) { benchmarkFib(b, 10) }
+func BenchmarkFib20(b *testing.B) { benchmarkFib(b, 20) }
+func BenchmarkFib40(b *testing.B) { benchmarkFib(b, 40) }
+</code></pre>
+
+                            <p>运行基准测试：</p>
+
+                            <pre><code class="language-bash">split $ go test -bench=.
+goos: darwin
+goarch: amd64
+pkg: github.com/Q1mi/studygo/code_demo/test_demo/fib
+BenchmarkFib1-8         1000000000               2.03 ns/op
+BenchmarkFib2-8         300000000                5.39 ns/op
+BenchmarkFib3-8         200000000                9.71 ns/op
+BenchmarkFib10-8         5000000               325 ns/op
+BenchmarkFib20-8           30000             42460 ns/op
+BenchmarkFib40-8               2         638524980 ns/op
+PASS
+ok      github.com/Q1mi/studygo/code_demo/test_demo/fib 12.944s
+</code></pre>
+
+                            <p>这里需要注意的是，默认情况下，每个基准测试至少运行1秒。如果在Benchmark函数返回时没有到1秒，则b.N的值会按1,2,5,10,20,50，&hellip;增加，并且函数再次运行。</p>
+
+                            <p>最终的BenchmarkFib40只运行了两次，每次运行的平均值只有不到一秒。像这种情况下我们应该可以使用<code>-benchtime</code>标志增加最小基准时间，以产生更准确的结果。例如：</p>
+
+                            <pre><code class="language-bash">split $ go test -bench=Fib40 -benchtime=20s
+goos: darwin
+goarch: amd64
+pkg: github.com/Q1mi/studygo/code_demo/test_demo/fib
+BenchmarkFib40-8              50         663205114 ns/op
+PASS
+ok      github.com/Q1mi/studygo/code_demo/test_demo/fib 33.849s
+</code></pre>
+
+                            <p>这一次<code>BenchmarkFib40</code>函数运行了50次，结果就会更准确一些了。</p>
+
+                            <p>使用性能比较函数做测试的时候一个容易犯的错误就是把<code>b.N</code>作为输入的大小，例如以下两个例子都是错误的示范：</p>
+
+                            <pre><code class="language-go">// 错误示范1
+func BenchmarkFibWrong(b *testing.B) {
+	for n := 0; n &lt; b.N; n++ {
+		Fib(n)
+	}
+}
+
+// 错误示范2
+func BenchmarkFibWrong2(b *testing.B) {
+	Fib(b.N)
+}
+</code></pre>
+
+                            <h2 id="重置时间">重置时间</h2>
+
+                            <p><code>b.ResetTimer</code>之前的处理不会放到执行时间里，也不会输出到报告中，所以可以在之前做一些不计划作为测试报告的操作。例如：</p>
+
+                            <pre><code class="language-go">func BenchmarkSplit(b *testing.B) {
+	time.Sleep(5 * time.Second) // 假设需要做一些耗时的无关操作
+	b.ResetTimer()              // 重置计时器
+	for i := 0; i &lt; b.N; i++ {
+		Split(&quot;沙河有沙又有河&quot;, &quot;沙&quot;)
+	}
+}
+</code></pre>
+
+                            <h2 id="并行测试">并行测试</h2>
+
+                            <p><code>func (b *B) RunParallel(body func(*PB))</code>会以并行的方式执行给定的基准测试。</p>
+
+                            <p><code>RunParallel</code>会创建出多个<code>goroutine</code>，并将<code>b.N</code>分配给这些<code>goroutine</code>执行， 其中<code>goroutine</code>数量的默认值为<code>GOMAXPROCS</code>。用户如果想要增加非CPU受限（non-CPU-bound）基准测试的并行性， 那么可以在<code>RunParallel</code>之前调用<code>SetParallelism</code> 。<code>RunParallel</code>通常会与<code>-cpu</code>标志一同使用。</p>
+
+                            <pre><code class="language-go">func BenchmarkSplitParallel(b *testing.B) {
+	// b.SetParallelism(1) // 设置使用的CPU数
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			Split(&quot;沙河有沙又有河&quot;, &quot;沙&quot;)
+		}
+	})
+}
+</code></pre>
+
+                            <p>执行一下基准测试：</p>
+
+                            <pre><code class="language-bash">split $ go test -bench=.
+goos: darwin
+goarch: amd64
+pkg: github.com/Q1mi/studygo/code_demo/test_demo/split
+BenchmarkSplit-8                10000000               131 ns/op
+BenchmarkSplitParallel-8        50000000                36.1 ns/op
+PASS
+ok      github.com/Q1mi/studygo/code_demo/test_demo/split       3.308s
+</code></pre>
+
+                            <p>还可以通过在测试命令后添加<code>-cpu</code>参数如<code>go test -bench=. -cpu 1</code>来指定使用的CPU数量。</p>
+
+                            <h1 id="setup与teardown">Setup与TearDown</h1>
+
+                            <p>测试程序有时需要在测试之前进行额外的设置（setup）或在测试之后进行拆卸（teardown）。</p>
+
+                            <h2 id="testmain">TestMain</h2>
+
+                            <p>通过在<code>*_test.go</code>文件中定义<code>TestMain</code>函数来可以在测试之前进行额外的设置（setup）或在测试之后进行拆卸（teardown）操作。</p>
+
+                            <p>如果测试文件包含函数:<code>func TestMain(m *testing.M)</code>那么生成的测试会先调用 TestMain(m)，然后再运行具体测试。<code>TestMain</code>运行在主<code>goroutine</code>中, 可以在调用 <code>m.Run</code>前后做任何设置（setup）和拆卸（teardown）。退出测试的时候应该使用<code>m.Run</code>的返回值作为参数调用<code>os.Exit</code>。</p>
+
+                            <p>一个使用<code>TestMain</code>来设置Setup和TearDown的示例如下：</p>
+
+                            <pre><code class="language-go">func TestMain(m *testing.M) {
+	fmt.Println(&quot;write setup code here...&quot;) // 测试之前的做一些设置
+	// 如果 TestMain 使用了 flags，这里应该加上flag.Parse()
+	retCode := m.Run()                         // 执行测试
+	fmt.Println(&quot;write teardown code here...&quot;) // 测试之后做一些拆卸工作
+	os.Exit(retCode)                           // 退出测试
+}
+</code></pre>
+
+                            <p>需要注意的是：在调用<code>TestMain</code>时, <code>flag.Parse</code>并没有被调用。所以如果<code>TestMain</code> 依赖于command-line标志 (包括 testing 包的标记), 则应该显示的调用<code>flag.Parse</code>。</p>
+
+                            <h2 id="子测试的setup与teardown">子测试的Setup与Teardown</h2>
+
+                            <p>有时候我们可能需要为每个测试集设置Setup与Teardown，也有可能需要为每个子测试设置Setup与Teardown。下面我们定义两个函数工具函数如下：</p>
+
+                            <pre><code class="language-go">// 测试集的Setup与Teardown
+func setupTestCase(t *testing.T) func(t *testing.T) {
+	t.Log(&quot;如有需要在此执行:测试之前的setup&quot;)
+	return func(t *testing.T) {
+		t.Log(&quot;如有需要在此执行:测试之后的teardown&quot;)
+	}
+}
+
+// 子测试的Setup与Teardown
+func setupSubTest(t *testing.T) func(t *testing.T) {
+	t.Log(&quot;如有需要在此执行:子测试之前的setup&quot;)
+	return func(t *testing.T) {
+		t.Log(&quot;如有需要在此执行:子测试之后的teardown&quot;)
+	}
+}
+</code></pre>
+
+                            <p>使用方式如下：</p>
+
+                            <pre><code class="language-go">func TestSplit(t *testing.T) {
+	type test struct { // 定义test结构体
+		input string
+		sep   string
+		want  []string
+	}
+	tests := map[string]test{ // 测试用例使用map存储
+		&quot;simple&quot;:      {input: &quot;a:b:c&quot;, sep: &quot;:&quot;, want: []string{&quot;a&quot;, &quot;b&quot;, &quot;c&quot;}},
+		&quot;wrong sep&quot;:   {input: &quot;a:b:c&quot;, sep: &quot;,&quot;, want: []string{&quot;a:b:c&quot;}},
+		&quot;more sep&quot;:    {input: &quot;abcd&quot;, sep: &quot;bc&quot;, want: []string{&quot;a&quot;, &quot;d&quot;}},
+		&quot;leading sep&quot;: {input: &quot;沙河有沙又有河&quot;, sep: &quot;沙&quot;, want: []string{&quot;&quot;, &quot;河有&quot;, &quot;又有河&quot;}},
+	}
+	teardownTestCase := setupTestCase(t) // 测试之前执行setup操作
+	defer teardownTestCase(t)            // 测试之后执行testdoen操作
+
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) { // 使用t.Run()执行子测试
+			teardownSubTest := setupSubTest(t) // 子测试之前执行setup操作
+			defer teardownSubTest(t)           // 测试之后执行testdoen操作
+			got := Split(tc.input, tc.sep)
+			if !reflect.DeepEqual(got, tc.want) {
+				t.Errorf(&quot;expected:%#v, got:%#v&quot;, tc.want, got)
+			}
+		})
+	}
+}
+</code></pre>
+
+                            <p>测试结果如下：</p>
+
+                            <pre><code class="language-bash">split $ go test -v
+=== RUN   TestSplit
+=== RUN   TestSplit/simple
+=== RUN   TestSplit/wrong_sep
+=== RUN   TestSplit/more_sep
+=== RUN   TestSplit/leading_sep
+--- PASS: TestSplit (0.00s)
+    split_test.go:71: 如有需要在此执行:测试之前的setup
+    --- PASS: TestSplit/simple (0.00s)
+        split_test.go:79: 如有需要在此执行:子测试之前的setup
+        split_test.go:81: 如有需要在此执行:子测试之后的teardown
+    --- PASS: TestSplit/wrong_sep (0.00s)
+        split_test.go:79: 如有需要在此执行:子测试之前的setup
+        split_test.go:81: 如有需要在此执行:子测试之后的teardown
+    --- PASS: TestSplit/more_sep (0.00s)
+        split_test.go:79: 如有需要在此执行:子测试之前的setup
+        split_test.go:81: 如有需要在此执行:子测试之后的teardown
+    --- PASS: TestSplit/leading_sep (0.00s)
+        split_test.go:79: 如有需要在此执行:子测试之前的setup
+        split_test.go:81: 如有需要在此执行:子测试之后的teardown
+    split_test.go:73: 如有需要在此执行:测试之后的teardown
+=== RUN   ExampleSplit
+--- PASS: ExampleSplit (0.00s)
+PASS
+ok      github.com/Q1mi/studygo/code_demo/test_demo/split       0.006s
+</code></pre>
+
+                            <h1 id="示例函数">示例函数</h1>
+
+                            <h2 id="示例函数的格式">示例函数的格式</h2>
+
+                            <p>被<code>go test</code>特殊对待的第三种函数就是示例函数，它们的函数名以<code>Example</code>为前缀。它们既没有参数也没有返回值。标准格式如下：</p>
+
+                            <pre><code class="language-go">func ExampleName() {
+    // ...
+}
+</code></pre>
+
+                            <h2 id="示例函数示例">示例函数示例</h2>
+
+                            <p>下面的代码是我们为<code>Split</code>函数编写的一个示例函数：</p>
+
+                            <pre><code class="language-go">func ExampleSplit() {
+	fmt.Println(split.Split(&quot;a:b:c&quot;, &quot;:&quot;))
+	fmt.Println(split.Split(&quot;沙河有沙又有河&quot;, &quot;沙&quot;))
+	// Output:
+	// [a b c]
+	// [ 河有 又有河]
+}
+</code></pre>
+
+                            <p>为你的代码编写示例代码有如下三个用处：</p>
+
+                            <ol>
+                                <li><p>示例函数能够作为文档直接使用，例如基于web的godoc中能把示例函数与对应的函数或包相关联。</p></li>
+
+                                <li><p>示例函数只要包含了<code>// Output:</code>也是可以通过<code>go test</code>运行的可执行测试。</p>
+
+                                    <pre><code class="language-bash">split $ go test -run Example
+PASS
+ok      github.com/Q1mi/studygo/code_demo/test_demo/split       0.006s
+</code></pre></li>
+
+                                <li><p>示例函数提供了可以直接运行的示例代码，可以直接在<code>golang.org</code>的<code>godoc</code>文档服务器上使用<code>Go Playground</code>运行示例代码。下图为<code>strings.ToUpper</code>函数在Playground的示例函数效果。
+                                    <img src="/images/Go/unit_test/example.png" alt="Go Playground" /></p></li>
+                            </ol>
+
+                            <h1 id="练习题">练习题</h1>
+
+                            <ol>
+                                <li>编写一个回文检测函数，并为其编写单元测试和基准测试，根据测试的结果逐步对其进行优化。（回文：一个字符串正序和逆序一样，如“Madam,I&rsquo;mAdam”、“油灯少灯油”等。）</li>
+                            </ol>
+                            <hr>
+                            <p>
+                                <img src="/images/wxgzh_qrcode.png" alt="扫码关注微信公众号">
+                            </p>
+                        </div>
+
+                        <div id="gitalk-container"></div>
+
+
+
+                        <div class="post-archive">
+                            <h2>See Also</h2>
+                            <ul class="listing">
+
+                                <li><a href="/posts/Go/go_http/">Go语言基础之net/http</a></li>
+
+                                <li><a href="/posts/Go/15_socket/">Go语言基础之网络编程</a></li>
+
+                                <li><a href="/posts/Go/concurrence/">Go语言基础之并发</a></li>
+
+                                <li><a href="/posts/Go/13_reflect/">Go语言基础之反射</a></li>
+
+                                <li><a href="/posts/Go/12-interface/">Go语言基础之接口</a></li>
+
+                            </ul>
+                        </div>
+
+
+                        <div class="post-meta meta-tags">
+
+                            <ul class="clearfix">
+
+                                <li><a href="https://www.liwenzhou.com/tags/Golang">Golang</a></li>
+
+                            </ul>
+
+                        </div>
+                    </article>
+
+
+
+
+
+                </div>
+            </div>
+            <div id="secondary">
+                <section class="widget">
+
+                    <div id="search" accept-charset="utf-8" _lpchecked="1">
+                        <ul id="s-u" class="search-result"></ul>
+                        <input id="s-k" type="text" autocomplete="off" name="key" maxlength="20" placeholder="搜索一下">
+                        <button id="s-b" type="button" class="submit icon-search"></button>
+                    </div>
+                </section>
+
+                <section class="widget">
+                    <h3 class="widget-title">👇🏻👇🏻👇🏻我亲自录制的视频课程</h3>
+                    <a href="https://study.163.com/course/courseMain.htm?courseId=1210171207&share=2&shareId=480000002229610" target="_blank"><img src="/images/goweb2.png" width="250"></a>
+
+                    <a href="https://study.163.com/course/courseMain.htm?courseId=1212937804&share=2&shareId=480000002229610" target="_blank"><img src="/images/micro.png" width="250"></a>
+
+                </section>
+                <section class="widget">
+                    <h3 class="widget-title">最近文章</h3>
+                    <ul class="widget-list">
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/posts/Go/golang-menu/" title="【置顶】Go语言学习之路/Go语言教程">【置顶】Go语言学习之路/Go语言教程</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/posts/Go/oneof-wrappers-field_mask/" title="protobuf中使用oneof、WrapValue和FieldMask">protobuf中使用oneof、WrapValue和FieldMask</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/posts/Go/grpc-gateway/" title="gRPC-Gateway使用指南">gRPC-Gateway使用指南</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/posts/Go/apollo/" title="Apollo配置中心">Apollo配置中心</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/posts/Go/consul/" title="基于consul实现服务注册与发现">基于consul实现服务注册与发现</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/posts/Go/Protobuf3-language-guide-zh/" title="Protocol Buffers V3中文语法指南[翻译]">Protocol Buffers V3中文语法指南[翻译]</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/posts/Go/rpc/" title="RPC原理与Go RPC">RPC原理与Go RPC</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/posts/Go/error-in-goroutine/" title="处理并发错误">处理并发错误</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/posts/Go/golang-unit-test-6/" title="Go单测从零到溜系列6—编写可测试的代码">Go单测从零到溜系列6—编写可测试的代码</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/posts/Go/error/" title="Error接口和错误处理">Error接口和错误处理</a>
+                        </li>
+
+                    </ul>
+                </section>
+
+
+
+                <section class="widget">
+                    <h3 class="widget-title">分类</h3>
+                    <ul class="widget-list">
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/categories/Development/">Development(14)</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/categories/Django/">Django(3)</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/categories/Front-end/">Front-end(1)</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/categories/Golang/">Golang(98)</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/categories/JavaScript/">JavaScript(1)</a>
+                        </li>
+
+                        <li>
+                            <a href="https://www.liwenzhou.com/categories/Python/">Python(13)</a>
+                        </li>
+
+                    </ul>
+                </section>
+
+                <section class="widget">
+                    <h3 class="widget-title">标签</h3>
+                    <div class="tagcloud">
+
+                        <a href="https://www.liwenzhou.com/tags/Development/">Development</a>
+
+                        <a href="https://www.liwenzhou.com/tags/Django/">Django</a>
+
+                        <a href="https://www.liwenzhou.com/tags/Golang/">Golang</a>
+
+                        <a href="https://www.liwenzhou.com/tags/Python/">Python</a>
+
+                        <a href="https://www.liwenzhou.com/tags/about/">about</a>
+
+                        <a href="https://www.liwenzhou.com/tags/front-end/">front-end</a>
+
+                    </div>
+                </section>
+
+
+                <section class="widget">
+                    <h3 class="widget-title">友情链接</h3>
+                    <ul class="widget-list">
+
+                        <li>
+                            <a target="_blank" href="https://geektutu.com" title="致力于分享有趣的技术实践">极客兔兔-有趣的技术实践</a>
+                        </li>
+
+                        <li>
+                            <a target="_blank" href="https://draveness.me/golang/" title="灯塔">draveness-Go语言设计与实现</a>
+                        </li>
+
+                        <li>
+                            <a target="_blank" href="https://www.cnblogs.com/liwenzhou/" title="Python全栈之路">Q1mi-Python全栈之路</a>
+                        </li>
+
+                        <li>
+                            <a target="_blank" href="https://www.cnblogs.com/zhaof" title="Python/Go语言之路">赵凡的博客</a>
+                        </li>
+
+                        <li>
+                            <a target="_blank" href="http://resn.cnblogs.com/" title="R_e-博客园">R_e-博客园</a>
+                        </li>
+
+                        <li>
+                            <a target="_blank" href="http://roddypy.com/" title="罗迪&#39;s Blog">罗迪&#39;s Blog</a>
+                        </li>
+
+                    </ul>
+                </section>
+
+
+                <section class="widget">
+                    <h3 class="widget-title">微信公众号</h3>
+                    <img src="/images/qrcode_for_gzh.jpg" width="258" height="258">
+                </section>
+
+                <section class="widget">
+                    <h3 class="widget-title">其它</h3>
+                    <ul class="widget-list">
+                        <li><a href="https://www.liwenzhou.com/index.xml">文章 RSS</a></li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2022 <a href="https://www.liwenzhou.com">李文周的博客 By 李文周</a>.本站博客未经授权禁止转载.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="http://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.<a href="https://beian.miit.gov.cn">京ICP备15037996号-1</a>.
+
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="/js/page.js" async="true"></script>
+<script type="text/javascript" src="/js/prism.js" async="true"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async="true"></script>
+
+
+
+<script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+<script src="/js/bootstrap.min.js"></script>
+
+<script src="/js/post_category.1.js"></script>
+
+</body>
+</html>
