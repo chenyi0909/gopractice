@@ -17,8 +17,8 @@ type ValNode struct {
 func main() {
 	//1.先创建一个原始数组
 	var chessMap [11][11]int
-	chessMap[1][2] = 1//黑子
-	chessMap[2][3] = 2//蓝子
+	chessMap[1][2] = 1//1表示黑子
+	chessMap[2][3] = 2//2表示蓝子
 	
 	//2.输出看看原始数组
 /*	for i := 0; i < 11; i++ {
@@ -85,6 +85,7 @@ func main() {
 	fileObj.Close()
 
 	//4.恢复原始数组，从存盘文件中读取数据并恢复存盘数组
+	//未实现点：数组的维度是固定的，并非从稀疏数组(或存盘文件)中获取维度并声明数组--不知如何实现
 	fileObj, err = os.OpenFile("./chessMap.data",os.O_RDONLY,0755)
 	if err != nil {
 		fmt.Println("读取存盘数据失败...err:", err)
@@ -97,9 +98,9 @@ func main() {
 	var chessMap2 [11][11]int
 	for  {
 
-		line, err := reader.ReadString('\n')
+		line, err := reader.ReadString('\n')//一行一行的读取存盘文件中的数据
 		fmt.Printf("%#v\n",line)
-		line2 := strings.Trim(line, "\n")
+		line2 := strings.Trim(line, "\n")//将字符串(line)中的”\n“移除，并返回一个string
 		fmt.Printf("%#v\n",line2)
 		fmt.Printf("%#v\n",len(line2))
 		if err == io.EOF{
